@@ -73,7 +73,7 @@ class Runescape(commands.Cog):
                     tms_data.append(daily_stock)
                     tms_date.append(datetime.datetime.strptime(tms_query_result[i]['date'], "%d %B %Y"))
         
-        if(type(tms_data) == list):
+        if(len(tms_data) > 0):
             await ctx.send(embed=RB.generated_tms_embed(tms_data, tms_date, query_fixed))
         else:
             await ctx.send("Could not find specified stock.")
