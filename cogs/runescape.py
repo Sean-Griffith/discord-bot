@@ -13,7 +13,7 @@ class Runescape(commands.Cog):
 
     @commands.command(aliases = ["ge"])
     async def grand_exchange(self, ctx, *item_name):
-        item_name = " ".join(item_name)
+        item_name = str(" ".join(item_name)).capitalize()
         print("Search for:", item_name)
 
         # Query rswiki for GE data
