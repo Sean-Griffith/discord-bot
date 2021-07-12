@@ -16,18 +16,33 @@ def generate_ge_embed(item_name, item_data):
 
         return item_embed
 
-def generated_tms_embed(tms_data, tms_date):
+def generated_tms_embed(tms_data, tms_date, query=None):
         # Embed base intialization
         tms_embed = discord.Embed(description="")
 
         # Set title/author
-        tms_embed.set_author(name="Traveling Merchant Stock for {}/{}/{}".format(tms_date.month,
-                                                                                 tms_date.day,
-                                                                                 tms_date.year))
- 
-        # Set merchant stock values
-        tms_embed.add_field(name="Item 1", value=str(tms_data[1]), inline=True)
-        tms_embed.add_field(name="Item 2", value=str(tms_data[2]), inline=True)
-        tms_embed.add_field(name="Item 3", value=str(tms_data[3]), inline=True)
+        if(query == None and len(tms_data) == 1 and len(tms_data[0]) == 4):
+                tms_embed.set_author(name="Traveling Merchant Stock for {}/{}/{}".format(tms_date[0].month,
+                                                                                         tms_date[0].day,
+                                                                                         tms_date[0].year))
+                # Set merchant stock values
+                tms_embed.add_field(name="Item 1", value=str(tms_data[0][1]), inline=True)
+                tms_embed.add_field(name="Item 2", value=str(tms_data[0][2]), inline=True)
+                tms_embed.add_field(name="Item 3", value=str(tms_data[0][3]), inline=True)
+        else:
+                tms_embed.set_author(name="Dates for next three occurances of {}".format(query))
+                # Set merchant stock values for each date
+                
+                for i in range(0,len(tms_date)):
+                        value_str = ""
+                        for j in range(1, len(tms_data[i])):
+                                if(str(tms_data[i][j]).lower() == str(query).lower()):
+                                        value_str += "**{}**\n".format(tms_data[i][j])
+                                else:
+                                        value_str += "{}\n".format(tms_data[i][j])
+                                
+                        tms_embed.add_field(name="{}/{}/{}".format(tms_date[i].month, tms_date[i].day, tms_date[i].year), 
+                                            value=value_str)
+        
 
         return tms_embed
