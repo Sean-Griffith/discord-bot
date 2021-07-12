@@ -29,11 +29,11 @@ class Runescape(commands.Cog):
     @commands.command(aliases = ["tms"])
     async def traveling_merchant(self, ctx, option=None, *query):
         
-        query_fixed = None
+        item_name = None
         if(query and len(query) > 0):
-            query = str("_".join(query))
-            query_fixed = query.replace("_"," ").capitalize()
-            print("Querying for:",query)
+            item_query = str("_".join(query)).replace("&","%26")
+            item_name = str(" ".join(query)).capitalize()
+            print("Querying for:", item_query)
 
         tms_date = []
         tms_data = []
@@ -59,7 +59,7 @@ class Runescape(commands.Cog):
         elif(option == "3"):
 
             # Query rswiki to search for next appearance of query in Traveling Merchant Stock
-            url = "https://api.weirdgloop.org/runescape/tms/search?name={}".format(query_fixed)
+            url = "https://api.weirdgloop.org/runescape/tms/search?name={}".format(item_query)
             
             # Submit query
             tms_query_result = self.rswiki_session.get(url).json()
@@ -74,9 +74,22 @@ class Runescape(commands.Cog):
                     tms_date.append(datetime.datetime.strptime(tms_query_result[i]['date'], "%d %B %Y"))
         
         if(len(tms_data) > 0):
-            await ctx.send(embed=RB.generated_tms_embed(tms_data, tms_date, query_fixed))
+            await ctx.send(embed=RB.generated_tms_embed(tms_data, tms_date, item_name))
         else:
             await ctx.send("Could not find specified stock.")
+
+    @commands.command(aliases = ["tmsr"])
+    async def tms_reminder(self, ctx, *item):
+
+        item_query = None
+        item_name = None
+        # Ensure query is in correct format
+        if(item):
+            item_query = "_".join(item)
+            item_name = " ".join(item)
+
+        # Check if item requested for reminders is valid
+        await ctx.send("hey, <@!{}>. WIP - {}".format(ctx.author.id, item_name))
 
 def setup(bot):
     bot.add_cog(Runescape(bot))
