@@ -62,19 +62,16 @@ class Runescape(commands.Cog):
             url = "https://api.weirdgloop.org/runescape/tms/search?name={}".format(query_fixed)
             
             # Submit query
-            tms_data = self.rswiki_session.get(url).json()
+            tms_query_result = self.rswiki_session.get(url).json()
             
             # Get first occurance of queried item in stock if the query was successful
-            if(isinstance(tms_data, list) and len(tms_data) > 0):
-                multi_tms_data = []
+            if(isinstance(tms_query_result, list) and len(tms_query_result) > 0):
 
-                for i in range(0,len(tms_data)):
-                    daily_stock = tms_data[i]["items"]
+                for i in range(0,len(tms_query_result)):
+                    daily_stock = tms_query_result[i]["items"]
 
-                    multi_tms_data.append(daily_stock)
-                    tms_date.append(datetime.datetime.strptime(tms_data[i]['date'], "%d %B %Y"))
-                
-                tms_data = multi_tms_data
+                    tms_data.append(daily_stock)
+                    tms_date.append(datetime.datetime.strptime(tms_query_result[i]['date'], "%d %B %Y"))
         
         if(type(tms_data) == list):
             await ctx.send(embed=RB.generated_tms_embed(tms_data, tms_date, query_fixed))
