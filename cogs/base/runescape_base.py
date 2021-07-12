@@ -9,7 +9,7 @@ def lookup_item_name(item_name):
                 valid_names = valid_names_file.readlines()
                 for valid_name in valid_names:
                         if(valid_name[:-1].lower() in item_name.lower()):
-                                match = valid_name[:-1].replace(" ","_").replace("&","%26")
+                                match = valid_name[:-1]
                                 break
 
         return match
@@ -35,8 +35,8 @@ def encode_item_name(query):
                 item_query = lookup_item_name(item_name)
 
         if(item_query):
-                item_query = item_query.strip()
                 item_name = item_query
+                item_query = item_query.strip().replace(" ","_").replace("&","%26")
 
         return item_query, item_name
 
