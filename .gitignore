@@ -1,5 +1,6 @@
 # Sensitive Information
 cogs/base/data/tms_reminders.txt
+cogs/base/data/tms_reminder_cid.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
