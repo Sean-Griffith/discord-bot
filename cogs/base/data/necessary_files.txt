@@ -1,0 +1,2 @@
+cogs/base/data/tms_reminder_cid.txt
+cogs/base/data/tms_reminders.txt

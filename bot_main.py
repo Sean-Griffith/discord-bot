@@ -9,7 +9,9 @@ bot = None
 
 try:
     # Load settings
+    bot_setup.generate_files()
     bot, bot_token = bot_setup.define_settings()
+    bot_setup.setup_tasks(bot)
     
     # Load modules/cogs with additional functionality for the bot before running
     bot_setup.load_cogs(bot)
