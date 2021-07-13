@@ -90,7 +90,7 @@ class Runescape(commands.Cog):
             RB.tms_set_reminder(item_name, ctx.author.id)
 
         # Check if item requested for reminders is valid
-        await ctx.send("Now tracking {} for {}".format(ctx.author.id, item_name, ctx.author.name))
+        await ctx.send("Now tracking {} for {}".format(item_name, ctx.author.name))
 
     @commands.command(aliases = ["setreminder", "asr"])
     @commands.has_permissions(administrator=True)
