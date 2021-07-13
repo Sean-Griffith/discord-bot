@@ -80,10 +80,14 @@ class Runescape(commands.Cog):
     @commands.command(aliases = ["tmsr"])
     async def tms_reminder(self, ctx, *query):
 
-        item_name = None
         item_query = None
+        item_name = None
         if(query and len(query) > 0):
             item_query, item_name = RB.encode_item_name(query)
+
+        # Requested item reminder is valid, record user id / requested reminder(s)
+        if(item_query):
+            RB.tms_set_reminder(item_name, ctx.author.id)
 
         # Check if item requested for reminders is valid
         await ctx.send("hey, <@!{}>. WIP - {}".format(ctx.author.id, item_name))

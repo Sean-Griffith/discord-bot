@@ -40,6 +40,40 @@ def encode_item_name(query):
 
         return item_query, item_name
 
+def tms_set_reminder(item_name, uid):
+        with open("cogs/base/data/tms_reminders.txt", "r") as reminder_file:
+                reminders = reminder_file.readlines()
+                #for reminder in reminders:
+                if(str(uid) in str(reminders)):
+                        edit_reminder(item_name, uid, reminders)
+                else:
+                        add_reminder(item_name, uid, reminders)
+
+def edit_reminder(item_name, uid, reminders):
+        new_reminders = []
+        for reminder in reminders:
+                split_reminder = reminder.split(" ")
+                if(len(split_reminder) > 0 and str(split_reminder[0]) == str(uid)):
+                        for item in split_reminder[1:]:
+                                print("c:[",item.replace("_", " ").rstrip(),"] [", item_name,"]")
+                                if(item.replace("_", " ").rstrip() == item_name):
+                                        raise Exception("c_err:Item already being tracked.")
+                        
+                        new_reminder = " ".join(split_reminder).rstrip()+" "+str(item_name).replace(" ", "_")
+                        new_reminders.append(new_reminder)
+                else:
+                        new_reminders.append(reminder)
+                
+        with open("cogs/base/data/tms_reminders.txt", "w") as reminder_file:
+                reminder_file.writelines(new_reminders)
+
+def add_reminder(item_name, uid, reminders):
+        new_reminder = str(uid) + " " + str(item_name).replace(" ", "_") + "\n"
+
+        reminders.append(new_reminder)
+        with open("cogs/base/data/tms_reminders.txt", "w") as reminder_file:
+                reminder_file.writelines(reminders)
+
 def generate_ge_embed(item_name, item_data):
         # Embed base intialization
         item_embed = discord.Embed(description="")
