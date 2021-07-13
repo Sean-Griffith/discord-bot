@@ -90,7 +90,14 @@ class Runescape(commands.Cog):
             RB.tms_set_reminder(item_name, ctx.author.id)
 
         # Check if item requested for reminders is valid
-        await ctx.send("hey, <@!{}>. WIP - {}".format(ctx.author.id, item_name))
+        await ctx.send("Now tracking {} for {}".format(ctx.author.id, item_name, ctx.author.name))
+
+    @commands.command(aliases = ["setreminder", "asr"])
+    @commands.has_permissions(administrator=True)
+    async def admin_set_reminder(self, ctx):
+        with open("cogs/base/data/tms_reminder_cid.txt", "w") as cid_file:
+            cid_file.write(str(ctx.channel.id))
+        await ctx.send("Now tracking reminders in {}".format(ctx.channel.name))
 
     @commands.command(aliases = ["tmsl"])
     async def tms_list(self, ctx):
